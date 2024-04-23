@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  plc_siemens:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Siemens/Dockerfile
+    volumes:
+      - .:/app  # Adjust this to your Django project directory
+    ports:
+      - "8000:8000"
+    command: /start
+    networks: 
+      - host
+    
+
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #   depends_on:
+  #     - plc_siemens
+
+networks:
+  host:
+    external: true

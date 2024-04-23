@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  plc_modbus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./plc_communication.py:/app/plc_communication.py
+      - ./industrial_web_app:/app  # Adjust this to your Django project directory
+    ports:
+      - "8000:8000"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - plc_allen_bradley

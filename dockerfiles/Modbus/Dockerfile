@@ -1,0 +1,23 @@
+FROM python:3.8-slim
+
+WORKDIR /app
+
+# copy all required requirements files
+COPY requirements/base.txt /app/requirements
+COPY requirements/modbus_tcp.txt /app/requirements/
+
+# Merge all requirements to one file
+RUN cat /app/requirements/*.txt  > /app/requirements.txt
+
+#Upgrade Pip 
+RUN pip install --upgrade pip
+
+# Install Dependencies
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Copy Django project files
+COPY . /app/
+
+# Run Django server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
